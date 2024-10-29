@@ -2,17 +2,17 @@ import MapUpload from "../components/MapUpload";
 import SettingsPanel from "../components/SettingsPanel";
 import PromoSection from "../components/PromoSection";
 import { useState } from "react";
-import { useUserContext } from '../context/UserContext'; // Adjust the import path
+import { useUserContext } from '../context/UserContext';
 
 export function Home() {
-    const { user } = useUserContext(); // Access user from context
+    const { user } = useUserContext();
     const [gridSettings, setGridSettings] = useState({
         gridType: 'square',
         color: '#FFFFFF',
-        opacity: 1,
+        opacity: 100,
         rows: 10,
         columns: 10,
-        thickness: 1,
+        thickness: 10,
     });
 
     return (

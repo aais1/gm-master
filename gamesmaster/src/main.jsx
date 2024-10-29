@@ -11,6 +11,7 @@ import { Login } from './pages/Login';
 import { Protected } from './components/Protected';
 import { ToastContainer } from 'react-toastify';
 import UserContext from './context/UserContext';
+import { ImageContextProvider } from './context/ImageContext';
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -25,8 +26,11 @@ const router=createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+
       <UserContext>
-        <RouterProvider router={router}/>
+        <ImageContextProvider>
+          <RouterProvider router={router}/>
+        </ImageContextProvider>
         <ToastContainer />
       </UserContext>
   </StrictMode>
