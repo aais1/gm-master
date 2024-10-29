@@ -41,7 +41,7 @@ const SettingsPanel = ({ gridSettings, setGridSettings }) => {
             paths.forEach((path) => {
                 const strokeWidth = parseFloat(path.getAttribute('stroke-width'));
                 ctx.strokeStyle = path.getAttribute('stroke');
-                ctx.lineWidth = strokeWidth*3; // Ensure thickness matches directly
+                ctx.lineWidth = strokeWidth*1.2; // Ensure thickness matches directly
     
                 if (path.tagName === 'rect') {
                     const x = parseFloat(path.getAttribute('x')) * (canvas.width / 100);

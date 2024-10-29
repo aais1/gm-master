@@ -82,11 +82,9 @@ const MapUpload = ({ gridSettings }) => {
                         <img
                             src={image}
                             alt="Uploaded Map"
-                            className="absolute inset-0 m-auto z-0"
+                            className="absolute inset-0 m-auto z-0 w-full h-full"
                             style={{
-                                maxWidth: '100%',
-                                maxHeight: '80vh',
-                                objectFit: 'contain',
+                                objectFit: 'cover',
                             }}
                         />
                         <GridOverlay
