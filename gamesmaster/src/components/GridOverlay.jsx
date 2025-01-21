@@ -1,7 +1,8 @@
 import React from 'react';
 
 const GridOverlay = ({ gridSettings }) => {
-    const { gridType, rows, columns, thickness, color, opacity } = gridSettings;
+    const { gridType, thickness, color, opacity, rows, columns } = gridSettings;
+    const hexSize = 30; // Fixed hex size
 
     const style = {
         position: 'absolute',
@@ -9,63 +10,72 @@ const GridOverlay = ({ gridSettings }) => {
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: 'none', 
-        opacity: opacity / 100, 
-        zIndex: 10, 
+        pointerEvents: 'none',
+        opacity: opacity / 100,
+        zIndex: 10,
     };
 
-    const renderSquareGrid = () => {
-        return Array.from({ length: rows }).map((_, rowIndex) =>
-            Array.from({ length: columns }).map((_, colIndex) => (
-                <rect
-                    key={`${rowIndex}-${colIndex}`}
-                    x={(100 / columns) * colIndex + '%'}
-                    y={(100 / rows) * rowIndex + '%'}
-                    width={(100 / columns) + '%'}
-                    height={(100 / rows) + '%'}
-                    stroke={color}
-                    strokeWidth={thickness/3}
-                    fill="none"
-                />
-            ))
-        );
-    };
-
-    const renderHexagon = (cx, cy, size) => {
-        const angle = (Math.PI / 180) * 60;
-        const points = Array.from({ length: 6 }, (_, i) => {
-            const x = cx + size * Math.cos(angle * i);
-            const y = cy + size * Math.sin(angle * i);
+    // Calculate points for a single hexagon based on center coordinates
+    const calculateHexagonPoints = (cx, cy, size) => {
+        const angle = Math.PI / 3;
+        return Array.from({ length: 6 }, (_, i) => {
+            const x = cx + size * Math.cos(i * angle);
+            const y = cy + size * Math.sin(i * angle);
             return `${x},${y}`;
         }).join(' ');
-    
-        return <polygon points={points} stroke={color} strokeWidth={thickness / 3} fill="none" />;
     };
-    
-    // Adjust renderHexagonalGrid
-    const renderHexagonalGrid = (canvasWidth, canvasHeight) => {
-        const size = (100 / columns) * 0.5; // Size of each hexagon
-        const hexHeight = size * Math.sqrt(3); // Height of the hexagon
-    
-        return Array.from({ length: rows }).map((_, rowIndex) =>
-            Array.from({ length: columns }).map((_, colIndex) => {
-                // Calculate the horizontal and vertical offsets
-                const xOffset = colIndex * size * 1.5; // Horizontal offset
-                const yOffset = rowIndex * (hexHeight * 0.5); // Vertical offset, adjusted for hexagon height
-    
-                // Adjust for odd rows to create the staggered effect
-                const adjustedYOffset = rowIndex % 2 === 0 
-                    ? yOffset 
-                    : yOffset + (hexHeight * 0.25); // Half the height of the hexagon for stagger
-    
-                return renderHexagon(xOffset, adjustedYOffset, size);
-            })
+
+    // Render hexagonal grid across the area using fixed rows and columns
+    const renderHexagonalGrid = () => {
+        const hexWidth = hexSize * 2;
+        const hexHeight = Math.sqrt(3) * hexSize;
+        const hexagons = [];
+
+        for (let row = 0; row < 30; row++) {
+            for (let col = 0; col < 35; col++) {
+                // Calculate the center position of each hexagon
+                const cx = col * hexWidth * 0.75;
+                const cy = row * hexHeight + (col % 2 === 0 ? 0 : hexHeight / 2);
+
+                hexagons.push(
+                    <polygon
+                        key={`${cx}-${cy}`}
+                        points={calculateHexagonPoints(cx, cy, hexSize)}
+                        stroke={color}
+                        strokeWidth={thickness}
+                        fill="none"
+                    />
+                );
+            }
+        }
+
+        return hexagons;
+    };
+
+    // Render square grid across the area
+    const renderSquareGrid = () => {
+        const cellWidth = 100 / columns + '%';
+        const cellHeight = 100 / rows + '%';
+
+        return (
+            <>
+                {Array.from({ length: rows }).map((_, rowIndex) =>
+                    Array.from({ length: columns }).map((_, colIndex) => (
+                        <rect
+                            key={`${rowIndex}-${colIndex}`}
+                            x={(100 / columns) * colIndex + '%'}
+                            y={(100 / rows) * rowIndex + '%'}
+                            width={cellWidth}
+                            height={cellHeight}
+                            stroke={color}
+                            strokeWidth={thickness / 3}
+                            fill="none"
+                        />
+                    ))
+                )}
+            </>
         );
     };
-    
-    
-    
-    
 
     return (
         <div style={style}>

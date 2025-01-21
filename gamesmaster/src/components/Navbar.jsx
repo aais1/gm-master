@@ -45,17 +45,17 @@ const Navbar = () => {
           </div>
           <div className="flex items-center space-x-4">
             <img src="/logo.png" alt="Games master" className="h-16 w-16" />
-            <span className="text-3xl md:block hidden font-bold text-white">GAMES MASTER</span>
+            <span className="text-[21.4px] md:block hidden font-bold text-white">GAMES MASTER</span>
           </div>
           <div className='block md:hidden'>
             <div onClick={handleLogout} className='flex flex-row space-x-3'>
               <img className='cursor-pointer' src={logouticon} height={20} width={20} alt="Logout" />
             </div>
           </div>
-          <div className="hidden space-x-6 text-gray-300 md:flex">
-            <a href="#" className="hover:text-white">Create your own Maps</a>
-            <a href="#" className="hover:text-white">Support</a>
-            <a href="#" className="hover:text-white">Work with us</a>
+          <div className="hidden space-x-6 text-[15.7px] text-gray-300 md:flex">
+            <a href="https://rpgmapstudio.com/" className="hover:text-white">Create your own Maps</a>
+            <a href="https://thegamesmaster.com/pages/contact_us" className="hover:text-white">Support</a>
+            <a href="https://thegamesmaster.com/pages/work-with-us" className="hover:text-white">Work with us</a>
             <div onClick={handleLogout} className='flex flex-row space-x-3'>
               <a href="#" className="hover:text-white">Logout</a>
               <img src={logouticon} height={20} width={20} alt="Logout" />
